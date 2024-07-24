@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Problem Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .small-input {
+            width: 100px; /* Adjust the width as needed */
+        }
+        .lowered-label {
+            margin-top: 90px; /* Adjust this value to move the label lower */
+        }
+        .top-left-title {
+            position: absolute;
+            top: 5px; /* Adjust this value as needed */
+            left: 100px; /* Adjust this value as needed */
+            font-size: 24px;
+            font-weight: bold;
+            color: #c31313; /* Adjust color as needed */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-start justify-center min-h-screen p-4">
+    <div class="top-left-title">
+        {{ problem.name}}
+    </div>
+    <div class="flex flex-col md:flex-row max-w-6xl w-full">
+        <div class="md:w-1/2 pr-4">
+            <h1 class="text-4xl font-bold text-gray-800">{{ problem.title }}</h1>
+            <h3 class="text-2xl text-gray-700 mt-2">{{ problem.description }}</h3>
+            <div class="mt-6">
+                <a href="/home/all_problems" class="text-blue-500 hover:text-blue-700 transition duration-200">
+                    Back to All Problems
+                </a>
+            </div>
+        </div>
+
+        <div class="md:w-1/2 pl-4">
+            <h1 class="text-3xl font-bold text-gray-800">Code Compiler</h1>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                
+                <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                    Run Code
+                </button>
+                <button type="submit" name="action" value="submit_code" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                    Submit
+                </button>
+                
+
+            </form>
+        </div>
+    </div>
+
+   
+    <div class="bottom-left-line"></div>
+</body>
+</html>

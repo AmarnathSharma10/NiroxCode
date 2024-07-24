@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Submissions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-start justify-center min-h-screen p-4">
+    <div class="max-w-6xl w-full">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">My Submissions</h1>
+        <table class="table-auto w-full bg-white rounded shadow">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Problem</th>
+                    <th class="px-4 py-2">Verdict</th>
+                    <th class="px-4 py-2">Language</th>
+                    <th class="px-4 py-2">Submitted At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr class="border-t">
+                    <td class="px-4 py-2">{{ submission.problem.name }}</td>
+                    <td class="px-4 py-2">{{ submission.verdict }}</td>
+                    <td class="px-4 py-2">{{ submission.language }}</td>
+                    <td class="px-4 py-2">{{ submission.submitted_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

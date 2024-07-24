@@ -1,0 +1,32 @@
+<!-- Main/templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoAlpha</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Smooth animation in the background */
+        .background {
+            background: linear-gradient(45deg, #ff6b6b, #f06595);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+    </style>
+</head>
+<body class="background flex items-center justify-center min-h-screen">
+    <div class="text-center text-white">
+        <h1 class="text-4xl font-bold mb-6">AlgoAlpha</h1>
+        <div class="flex justify-center gap-4">
+            <a href="/accounts/login" class="px-4 py-2 bg-blue-500 rounded text-white hover:bg-blue-700">Login</a>
+            <a href="/accounts/register" class="px-4 py-2 bg-green-500 rounded text-white hover:bg-green-700">Signup</a>
+        </div>
+    </div>
+</body>
+</html>
