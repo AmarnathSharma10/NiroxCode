@@ -12,10 +12,10 @@
 
     <nav class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-4 shadow-md w-full flex justify-between items-center fixed top-0 left-0 right-0">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-white text-2xl font-bold">OJ</a>
+            <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
             <div class="flex space-x-4">
                 <a href="#" class="text-white hover:text-gray-200 transition duration-200">Home</a>
-                <a href="#" class="text-white hover:text-gray-200 transition duration-200">Profile</a>
+                
                 <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
                 <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
             </div>
@@ -23,7 +23,7 @@
         {% if user.is_authenticated %}
         <form method="post" action="{% url 'logout' %}" class="ml-4">
             {% csrf_token %}
-            <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout Now</button>
+            <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
         </form>
         {% endif %}
     </nav>

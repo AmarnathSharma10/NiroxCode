@@ -69,24 +69,7 @@ def my_submissions(request):
         'submissions': user_submissions
     }
     return render(request, 'my_submissions.html', context)
-# def Run(request):
-#     if(request.method=="POST"):
-#         form=CodeRunnerForm(request.POST)
-#         if form.is_valid():
-#             run=form.save()
-#             print(run.language)
-#             print(run.code)
-#             op=run_code(run.language,run.code,run.input_data)
-#             run.output_data=op
-#             run.save()
-#             return render(request,"problem.html",{"Run":run})
-#     else:
-#         form=CodeRunnerForm()
-#         context={
-#             "form":form
-#
-#         }
-#         return render(request,"problem.html",context)
+
 
 
 
@@ -104,12 +87,20 @@ def run_code(language, code, input_data):
     outputs_dir = project_path / "outputs"
 
     unique = str(uuid.uuid4())
+    if language=="java":
+        jc=codes_dir/"javaC"
+        code_folder=jc/unique
+        if not code_folder.exists():
+            code_folder.mkdir(parents=True, exist_ok=True)
+        code_file_name="Main.java"
+        code_file_path=code_folder/code_file_name
 
-    code_file_name = f"{unique}.{language}"
+    else:
+        code_file_name = f"{unique}.{language}"
+        code_file_path = codes_dir / code_file_name
     input_file_name = f"{unique}.txt"
     output_file_name = f"{unique}.txt"
 
-    code_file_path = codes_dir / code_file_name
     input_file_path = inputs_dir / input_file_name
     output_file_path = outputs_dir / output_file_name
 
@@ -118,10 +109,10 @@ def run_code(language, code, input_data):
 
     with open(input_file_path, "w") as input_file:
         input_file.write(input_data)
-        print(f"input ={input_data}")
+
 
     with open(output_file_path, "w") as output_file:
-        pass  # This will create an empty file
+        pass
 
     if language == "cpp":
         executable_path = codes_dir / unique
@@ -136,6 +127,20 @@ def run_code(language, code, input_data):
                         stdin=input_file,
                         stdout=output_file,
                     )
+    elif language == "c":
+        executable_path = codes_dir / unique
+        compile_result = subprocess.run(
+            ["gcc", str(code_file_path), "-o", str(executable_path)]
+        )
+        if compile_result.returncode == 0:
+            with open(input_file_path, "r") as input_file:
+                with open(output_file_path, "w") as output_file:
+                    subprocess.run(
+                        [str(executable_path)],
+                        stdin=input_file,
+                        stdout=output_file,
+                    )
+
     elif language == "py":
         # Code for executing Python script
         with open(input_file_path, "r") as input_file:
@@ -146,18 +151,24 @@ def run_code(language, code, input_data):
                     stdout=output_file,
                 )
     elif language == "java":
-        compile_result = subprocess.run(
-            ["javac", str(code_file_path)]
-        )
-        if compile_result.returncode == 0:
-            class_file_path = str(code_file_path).replace(".java", "")
-            with open(input_file_path, "r") as input_file:
-                with open(output_file_path, "w") as output_file:
-                    subprocess.run(
-                        ["java", class_file_path],
-                        stdin=input_file,
-                        stdout=output_file,
-                    )
+
+
+            compile_result = subprocess.run(
+                ["javac", str(code_file_path)]
+            )
+            if compile_result.returncode == 0:
+                with open(input_file_path, "r") as input_file:
+                    with open(output_file_path, "w") as output_file:
+
+                        subprocess.run(
+                            ["java", str(code_file_path)],
+                            stdin=input_file,
+                            stdout=output_file,
+                        )
+            else:
+                output_data="compilation error"
+                return output_data
+
     # Read the output from the output file
     with open(output_file_path, "r") as output_file:
         output_data = output_file.read()
@@ -167,7 +178,7 @@ def Submit(language,code,p_id,u_id):
     try:
         problem = Problem.objects.get(id=p_id)
     except Problem.DoesNotExist:
-        return "###########################Problem with given ID does not exist________________."
+        return "________________Problem with given ID does not exist________________."
     print(f"{problem}")
     result=""
     tests=TestCase.objects.filter(problem=problem)
@@ -180,7 +191,7 @@ def Submit(language,code,p_id,u_id):
         runOutput=run_code(language,code,Testinput)
         if runOutput.strip()!=TestOutput.strip():
             verdict="Rejected"
-            result+=f"Expected output: {TestOutput} "
+            result+=f"Expected output: {TestOutput} \n"
             result+=f"received  output: {runOutput} "
             print(f"Expected output: {TestOutput} ")
             print(f"received  output: {runOutput} ")
