@@ -191,10 +191,10 @@ def Submit(language,code,p_id,u_id):
         runOutput=run_code(language,code,Testinput)
         if runOutput.strip()!=TestOutput.strip():
             verdict="Rejected"
+            result+=f"Input: {Testinput}"
             result+=f"Expected output: {TestOutput} \n"
             result+=f"received  output: {runOutput} "
-            print(f"Expected output: {TestOutput} ")
-            print(f"received  output: {runOutput} ")
+
             submission=Submission(problem=problem,language=language,code=code,verdict=verdict,user_id=u_id)
             submission.save()
             return result
