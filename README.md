@@ -22,6 +22,8 @@
 ### Directory Structure
 
 **There are a total of 3 apps in this project as of now Main,accounts and home**
+
+
 **Main/**
 - `__init__.py`: Indicates that this directory should be treated as a Python package.
 - `settings.py`: Contains all the settings and configuration for the Django project.
