@@ -5,22 +5,20 @@ from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
 from home.models import Problem,TestCase,Submission
-from django.contrib.auth.decorators import login_required# Create your views here.
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 import os
 import uuid
 from pathlib import Path
 import subprocess
 @ login_required
 def all_problems(request):
-    all_problems = Problem.objects.filter(for_contest=False)
+    problems = Problem.objects.filter(for_contest=False)
+    paginator = Paginator(problems, 10)  # Show 10 problems per page
 
-
-    context = {
-        'all_problems':all_problems,
-    }
-    template = loader.get_template('all_problems.html')
-
-    return HttpResponse(template.render(context,request))
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'all_problems.html', {'page_obj': page_obj})
 # Create your views here.
 @login_required
 def problem_desc(request,problem_id):
@@ -191,7 +189,8 @@ def Submit(language,code,p_id,u_id):
         runOutput=run_code(language,code,Testinput)
         if runOutput.strip()!=TestOutput.strip():
             verdict="Rejected"
-            result+=f"Input: {Testinput}"
+            result+="Rejected\n"
+            result+=f"Input:\n {Testinput}\n"
             result+=f"Expected output: {TestOutput} \n"
             result+=f"received  output: {runOutput} "
 

@@ -24,8 +24,8 @@
         <!-- Registration form heading -->
         <h1 style="text-align: center">
           <span style="color: green">NiroxCode</span>
-        </h1>
-        <h3>Register</h3>
+        </h1 >
+        <h3 style="text-align: center">Register</h3>
         <hr />
 
         <!-- Display error/success messages -->
@@ -37,42 +37,68 @@
 
         <!-- Username input field -->
         <div class="form-group">
-          <label for="exampleInputEmail1">Username</label>
+          <label for="exampleInputUsername">Username</label>
           <input
-            type="text"
-            class="form-control"
-            name="username"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Enter username"
-            required
+              type="text"
+              class="form-control"
+              name="username"
+              id="exampleInputUsername"
+              aria-describedby="usernameHelp"
+              placeholder="Enter username"
+              required
           />
-        </div>
+      </div>
+
+        <!-- Email input field -->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input
+              type="email"
+              class="form-control"
+              name="email"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              required
+          />
+      </div>
 
         <!-- Password input field -->
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input
-            type="password"
-            class="form-control"
-            name="password"
-            id="exampleInputPassword1"
-            placeholder="Password"
-            required
+              type="password"
+              class="form-control"
+              name="password"
+              id="exampleInputPassword1"
+              placeholder="Password"
+              required
           />
-        </div>
+      </div>
+         <!-- Confirm Password input field -->
+         <div class="form-group">
+          <label for="exampleInputPassword2">Confirm Password</label>
+          <input
+              type="password"
+              class="form-control"
+              name="confirm_password"
+              id="exampleInputPassword2"
+              placeholder="Confirm Password"
+              required
+          />
+      </div>
         <!-- Age input field -->
         <div class="form-group">
-            <label for="exampleInputAge">Age</label>
-            <input
-            type="number"
-            class="form-control"
-            name="age"
-            id="exampleInputAge"
-            placeholder="Age"
-            required
-            />
-        </div>
+          <label for="exampleInputAge">Age</label>
+          <input
+              type="number"
+              class="form-control"
+              name="age"
+              id="exampleInputAge"
+              placeholder="Enter age"
+              required
+          />
+      </div>
   
 
         <!-- Link to login page for users who already have an account -->

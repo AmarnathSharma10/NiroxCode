@@ -19,9 +19,12 @@ import accounts.urls as u
 import home.urls as q
 from django.urls import include, path
 from Main.views import home
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', home, name='AlgoAlpha'),
     path('admin/', admin.site.urls),
     path('accounts/',include(u)),
     path('home/',include(q)),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

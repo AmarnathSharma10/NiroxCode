@@ -1,0 +1,2 @@
+Enter the number of elements in the array: Enter the elements of the array (sorted): 
+Enter the target element: Element found at index 5

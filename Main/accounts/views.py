@@ -5,14 +5,26 @@ from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from accounts.models import Profile
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
 def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
         age = request.POST.get('age')
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not  match')
+            return redirect('/accounts/register/')
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Invalid email address')
+            return redirect('/accounts/register/')
 
         user = User.objects.filter(username=username)
 
@@ -24,7 +36,7 @@ def register_user(request):
 
         user.set_password(password)
         user.save()
-        profile=Profile(user=user,age=age)
+        profile=Profile(user=user,age=age,email=email)
         profile.save()
 
         messages.info(request, 'User created successfully')

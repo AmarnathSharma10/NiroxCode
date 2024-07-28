@@ -7,7 +7,12 @@
     <meta name="description" content="" />
     <link rel="icon" href="favicon.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    
+    <style>
+        .problemtag {
+            padding: 3px;
+            color: white;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
@@ -16,7 +21,6 @@
             <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
             <div class="flex space-x-4">
                 <a href="#" class="text-white hover:text-gray-200 transition duration-200">Home</a>
-                
                 <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
                 <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
             </div>
@@ -32,15 +36,56 @@
     <main class="pt-24 flex flex-col items-center justify-center w-full">
         <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">All Problems</h1>
 
-        <ul class="w-full max-w-lg bg-white shadow-md rounded-lg p-4">
-            {% for problem in all_problems %}
-                <li class="border-b last:border-b-0">
-                    <a href="/home/all_problems/{{ problem.id }}/" class="block py-3 text-blue-600 hover:text-blue-800 transition duration-200">
-                        {{ problem }}
+        <ul class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 ml-4">
+            {% for problem in page_obj %}
+                <li class="border-b last:border-b-0 text-left">
+                    <a href="/home/all_problems/{{ problem.id }}/" class="block py-3 text-blue-600 hover:text-blue-800 transition duration-200 flex justify-between">
+                        <span>{{ problem }}</span>
+                        <span class="problemtag {% if problem.difficulty == 'Easy' %}bg-green-500{% elif problem.difficulty == 'Medium' %}bg-yellow-500{% else %}bg-red-500{% endif %}">
+                            {{ problem.difficulty }}
+                        </span>
                     </a>
                 </li>
             {% endfor %}
         </ul>
+
+        <div class="mt-4">
+            <nav class="flex justify-center">
+                <ul class="inline-flex items-center -space-x-px">
+                    {% if page_obj.has_previous %}
+                        <li>
+                            <a href="?page={{ page_obj.previous_page_number }}" class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <span class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 cursor-not-allowed">Previous</span>
+                        </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li>
+                                <span class="py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300">{{ num }}</span>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="?page={{ num }}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li>
+                            <a href="?page={{ page_obj.next_page_number }}" class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Next</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <span class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 cursor-not-allowed">Next</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </main>
 
 </body>

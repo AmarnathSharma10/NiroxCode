@@ -1,60 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Problem Detail</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Problem Details</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .small-input {
-            width: 100px; /* Adjust the width as needed */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
         }
-        .lowered-label {
-            margin-top: 90px; /* Adjust this value to move the label lower */
+        .container {
+            display: flex;
+            height: 100%;
+            position: relative;
         }
-        .top-left-title {
+        .panel {
+            flex: 1;
+            transition: flex 0.3s ease;
+             /* Enable vertical scrolling */
+            padding: 20px;
+        }
+        .black {
+            background-color: black;
+            overflow-y: auto;
+            color: white;
+            text-align: center;
+        }
+        .white {
+            background-color: white;
+            color: black;
+            padding-left: 20px;
+        }
+        .slider {
             position: absolute;
-            top: 5px; /* Adjust this value as needed */
-            left: 100px; /* Adjust this value as needed */
-            font-size: 24px;
-            font-weight: bold;
-            color: #c31313; /* Adjust color as needed */
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            cursor: ew-resize;
+            background-color: gray;
+            z-index: 1;
+            opacity: 0.8;
+            transition: background-color 0.3s ease;
+        }
+        .problem-title {
+            font-family:'Courier New', Courier, monospace; 
+            font-size: 1.5rem; 
+            padding: 20px; 
+            color: lightgreen; 
+            text-align: center; 
+            
+        }
+        .slider:hover {
+            background-color: darkgray;
+        }
+        .details-box {
+            background-color: #f0f0f078; /* Greyish background */
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            font-size: large;
+        }
+        .details-box img {
+            max-width: 100%; /* Ensure image fits within the container */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 100%; /* Ensure image does not exceed container height */
         }
     </style>
 </head>
-<body class="bg-gray-100 flex items-start justify-center min-h-screen p-4">
-    <div class="top-left-title">
-        {{ problem.name}}
-    </div>
-    <div class="flex flex-col md:flex-row max-w-6xl w-full">
-        <div class="md:w-1/2 pr-4">
-            <h1 class="text-4xl font-bold text-gray-800">{{ problem.title }}</h1>
-            <h3 class="text-2xl text-gray-700 mt-2">{{ problem.description }}</h3>
-            <div class="mt-6">
-                <a href="/home/all_problems" class="text-blue-500 hover:text-blue-700 transition duration-200">
-                    Back to All Problems
-                </a>
+<body>
+    <div class="container">
+        <div class="panel black" id="black-panel">
+            <h1 class="problem-title">{{ problem.name }}</h1>
+            <div class="details-box">
+                {{ problem.description|linebreaksbr }}
+                {% if problem.has_image %}
+                    <img src="{{ problem.image.url }}" alt="Problem Image">
+                {% endif %}
             </div>
         </div>
-
-        <div class="md:w-1/2 pl-4">
-            <h1 class="text-3xl font-bold text-gray-800">Code Compiler</h1>
-            <form method="post" class="mt-4">
+        <div class="slider" id="slider"></div>
+        <div class="panel white" id="white-panel">
+            <form method="post" class="mt-4 space-y-2">
                 {% csrf_token %}
-                {{ form.as_p }}
-                
-                <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
-                    Run Code
-                </button>
-                <button type="submit" name="action" value="submit_code" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
-                    Submit
-                </button>
-                
-
+                <div>
+                    <h5 class="mb-1">Select language</h5>
+                    {{ form.language }}
+                </div>
+                <div>
+                    <h5 class="mb-1">Code</h5>
+                    {{ form.code }}
+                </div>
+                <div>
+                    <h5 class="mb-1">Input data</h5>
+                    {{ form.input_data }}
+                </div>
+                <div>
+                    <h5 class="mb-1">Output data</h5>
+                    {{ form.output_data }}
+                </div>
+                <div>
+                    <h5 class="mb-1">Verdict</h5>
+                    {{ form.verdict }}
+                </div>
+                <div class="flex space-x-2 mt-4">
+                    <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                        Run Code
+                    </button>
+                    <button type="submit" name="action" value="submit_code" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                        Submit
+                    </button>
+                </div>
             </form>
         </div>
     </div>
+    
+    <script>
+        const slider = document.getElementById('slider');
+        const blackPanel = document.getElementById('black-panel');
+        const whitePanel = document.getElementById('white-panel');
+        let isDragging = false;
 
-   
-    <div class="bottom-left-line"></div>
+        function initializeSlider() {
+            const containerWidth = document.querySelector('.container').offsetWidth;
+            const initialWidth = 50; // Starting position of the slider
+            blackPanel.style.flex = `0 0 ${initialWidth}%`;
+            whitePanel.style.flex = `0 0 ${100 - initialWidth}%`;
+            slider.style.left = `${initialWidth}%`;
+        }
+
+        window.addEventListener('load', initializeSlider);
+
+        slider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            e.preventDefault(); // Prevent default text selection
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const containerRect = document.querySelector('.container').getBoundingClientRect();
+                const sliderWidth = slider.offsetWidth;
+                const offsetX = e.clientX - containerRect.left;
+                const newWidth = ((offsetX - sliderWidth / 2) / (containerRect.width - sliderWidth)) * 100;
+
+                if (newWidth < 10) {
+                    blackPanel.style.flex = `0 0 10%`;
+                    whitePanel.style.flex = `0 0 90%`;
+                } else if (newWidth > 90) {
+                    blackPanel.style.flex = `0 0 90%`;
+                    whitePanel.style.flex = `0 0 10%`;
+                } else {
+                    blackPanel.style.flex = `0 0 ${newWidth}%`;
+                    whitePanel.style.flex = `0 0 ${100 - newWidth}%`;
+                }
+                
+                slider.style.left = `${newWidth}%`;
+            }
+        });
+    </script>
 </body>
 </html>

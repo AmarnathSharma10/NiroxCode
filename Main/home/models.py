@@ -13,8 +13,9 @@ class Problem(models.Model):
     added_at=models.DateTimeField(auto_now_add=True)
     for_contest=models.BooleanField(default=False)
     has_image=models.BooleanField(default=False)
+    image = models.ImageField(upload_to='media/images/', blank=True, null=True)
     def __str__(self):
-        return self.name +"             "+self.difficulty
+        return self.name
 
 class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
