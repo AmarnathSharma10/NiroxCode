@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-!wi4zh2a&@$22d1t3i^p4b)+#o-k%hvkknuau+_lw$-_b0#x*q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.201.76.53', '127.0.0.1','localhost']
-
+ALLOWED_HOSTS = ['35.154.245.26','niroxcode.me' ,'www.niroxcode.me', '127.0.0.1','localhost']
+CSRF_TRUSTED_ORIGINS = [
+    'https://niroxcode.me',
+    'https://www.niroxcode.me',
+    # Add other trusted origins if needed
+]
 
 # Application definition
 

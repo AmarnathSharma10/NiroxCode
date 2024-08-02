@@ -5,29 +5,56 @@
     <title>My Submissions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex items-start justify-center min-h-screen p-4">
+<body >
+    <nav class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-4 shadow-md w-full flex justify-between items-center fixed top-0 left-0 right-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
+            <div class="flex space-x-4">
+                <a href="/home/all_problems/" class="text-white hover:text-gray-200 transition duration-200">Home</a>
+                <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
+                <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
+            </div>
+        </div>
+        {% if not user.is_authenticated %}
+        
+        <form method="post" action="{% url 'logout' %}" class="ml-4">
+            {% csrf_token %}
+            <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
+        </form>
+        {% endif %}
+    </nav>
+    <div class="bg-gray-100 flex items-start justify-center min-h-screen p-4">
+    
     <div class="max-w-6xl w-full">
+        <br><br>
         <h1 class="text-4xl font-bold text-gray-800 mb-4">My Submissions</h1>
-        <table class="table-auto w-full bg-white rounded shadow">
+        <table class="table-auto w-full bg-white rounded shadow b">
             <thead>
-                <tr>
-                    <th class="px-4 py-2">Problem</th>
-                    <th class="px-4 py-2">Verdict</th>
-                    <th class="px-4 py-2">Language</th>
-                    <th class="px-4 py-2">Submitted At</th>
+                <tr class="bg-blue-500">
+                    <th class="px-4 py-2 text-left pl-6">Username</th>
+                    <th class="px-4 py-2 text-left pl-6">Problem</th>
+                    <th class="px-4 py-2 text-left pl-6">Verdict</th>
+                    <th class="px-4 py-2 text-left pl-6">Language</th>
+                    <th class="px-4 py-2 text-left pl-6">Submitted At</th>
                 </tr>
             </thead>
             <tbody>
                 {% for submission in submissions %}
-                <tr class="border-t">
-                    <td class="px-4 py-2">{{ submission.problem.name }}</td>
-                    <td class="px-4 py-2">{{ submission.verdict }}</td>
-                    <td class="px-4 py-2">{{ submission.language }}</td>
-                    <td class="px-4 py-2">{{ submission.submitted_at }}</td>
+                {% if submission.verdict == 'Rejected' %}
+                <tr class="border-t bg-red-100 text-red-800">
+                {% else %}
+                <tr class="border-t bg-green-100 text-green-800">
+                {% endif %}
+                    <td class="px-4 py-2">&nbsp;&nbsp;&nbsp;{{user}}</td>
+                    <td class="px-4 py-2 ">{{submission.problem.name }}</td>
+                    <td class="px-4 py-2">{{submission.verdict }}</td>
+                    <td class="px-4 py-2">{{submission.language }}</td>
+                    <td class="px-4 py-2">{{submission.submitted_at }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
 </body>
 </html>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NiroxCode</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     {% load static %}
     <style>
         /* Background image scaling */
@@ -24,6 +26,38 @@
             flex: 1;
             margin-right: -7rem;
         }
+        .desc{
+            font-family: 'Courier New', Courier, monospace;
+            color: aquamarine;
+            position: absolute;
+            bottom: 30rem;
+            right: 2rem;
+
+        }
+        
+        .features{
+            font-family: 'Courier New', Courier, monospace;
+            color: aquamarine;
+            position: absolute;
+            bottom: 15rem;
+            left: 2rem;
+        }
+        .credits{
+            font-family: 'Courier New', Courier, monospace;
+            color: aquamarine;
+            position: absolute;
+            bottom: 0rem;
+            right: 2rem;
+        }
+        .feedback{
+            font-family: 'Courier New', Courier, monospace;
+            color: aquamarine;
+            position: absolute;
+            bottom: 5rem;
+            left: 2rem;
+
+        }
+
     </style>
 </head>
 <body class="background">
@@ -35,6 +69,44 @@
             <a href="/accounts/login" class="px-4 py-2 bg-blue-500 rounded text-white hover:bg-blue-700">Login</a>
             <a href="/accounts/register" class="px-4 py-2 bg-green-500 rounded text-white hover:bg-green-700">Signup</a>
         </div>
+    </div>
+
+    <!-- Text Box Container -->
+    <div class=" p-4 text-white rounded-lg features">
+        <h2 style="font-size: x-large;">Why NiroxCode?</h2>
+        <ul class="list-disc list-inside">
+            <li>supports multiple languages<br>(java, python, c and c++)</li>
+            <li>Easy Administration</li>
+            <li>Responsive UI</li>
+            <li>Clear Results<br>NiroxCode provides all details when a test case fails,<br> ensuring no ambiguity. </li>
+        </ul>
+    </div>
+    <div class=" p-4 text-white rounded-lg desc">
+        <h2 style="font-size: x-large;">What is NiroxCode?</h2>
+        <p>Niroxcode is a django based online coding platform that<br> supports multiple programming languages .<br> It allows users to write, compile, run and submit code<br> in a web-based interface.<br>It also serves the functionality of Online Judge</p>
+
+    </div>
+    <div class=" p-4 text-white rounded-lg credits">
+        <h2 style="font-size: x-large;">Designed by:</h2>
+        <b>AMARNATH SHARMA C</b>
+        <p>ABV IIITM GWALIOR</p>
+
+
+    </div>
+    <div class=" p-4 text-white rounded-lg feedback">
+        <h2 style="font-size: x-large;">Got any feedback or suggestions?</h2>
+        <a href="https://www.linkedin.com/in/amarnath-sharma-c-05a375320/" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-linkedin fa-2x">
+
+            </i></a>
+        <a href="mailto:nath.c54321@gmail.com" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-envelope fa-2x"></i></a>
+        <a href="https://github.com/AmarnathSharma10" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github fa-2x"></i>
+        </a>
+        
+        
+
     </div>
 </body>
 </html>

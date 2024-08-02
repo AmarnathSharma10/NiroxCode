@@ -11,35 +11,44 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden;
+           
         }
         .container {
             display: flex;
             height: 100%;
             position: relative;
+            
         }
         .panel {
             flex: 1;
             transition: flex 0.3s ease;
              /* Enable vertical scrolling */
-            padding: 20px;
+            
+            
+            
         }
         .black {
+            
             background-color: black;
             overflow-y: auto;
             color: white;
             text-align: center;
         }
         .white {
+            
             background-color: white;
             color: black;
-            padding-left: 20px;
+            text-align: center;
+            
+            
+            
         }
         .slider {
             position: absolute;
-            top: 0;
+            top: 65px;
             bottom: 0;
             width: 10px;
+            height: 100%;
             cursor: ew-resize;
             background-color: gray;
             z-index: 1;
@@ -74,8 +83,26 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
+        <nav class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-4 shadow-md w-full flex justify-between items-center fixed top-0 left-0 right-0">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
+                <div class="flex space-x-4">
+                    <a href="/home/all_problems/" class="text-white hover:text-gray-200 transition duration-200">Home</a>
+                    <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
+                    <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" class="ml-4">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
+            </form>
+            {% endif %}
+        </nav>
         <div class="panel black" id="black-panel">
+            <br><br>
             <h1 class="problem-title">{{ problem.name }}</h1>
             <div class="details-box">
                 {{ problem.description|linebreaksbr }}
@@ -86,6 +113,7 @@
         </div>
         <div class="slider" id="slider"></div>
         <div class="panel white" id="white-panel">
+            <br><br><br>
             <form method="post" class="mt-4 space-y-2">
                 {% csrf_token %}
                 <div>
@@ -108,8 +136,8 @@
                     <h5 class="mb-1">Verdict</h5>
                     {{ form.verdict }}
                 </div>
-                <div class="flex space-x-2 mt-4">
-                    <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                <div class="flex space-x-2 mt-4  ">
+                    <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-80  rounded transition duration-200">
                         Run Code
                     </button>
                     <button type="submit" name="action" value="submit_code" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">

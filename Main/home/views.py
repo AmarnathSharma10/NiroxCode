@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from home.forms import CodeRunnerForm
 from django.conf import settings
 from django.template import loader
@@ -8,6 +8,7 @@ from home.models import Problem,TestCase,Submission
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 import os
+from accounts.models import Profile
 import uuid
 from pathlib import Path
 import subprocess
@@ -62,8 +63,10 @@ def problem_desc(request,problem_id):
 
 @login_required
 def my_submissions(request):
+    profile = get_object_or_404(Profile, user_id=request.user.id)
     user_submissions = Submission.objects.filter(user_id=request.user.id)
     context = {
+        'user':profile.user.username,
         'submissions': user_submissions
     }
     return render(request, 'my_submissions.html', context)
