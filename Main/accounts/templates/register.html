@@ -1,112 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <title>Registration Form</title>
-    
-  </head>
-  <body>
-    <div class="container mt-5">
-      <!-- Registration form -->
-      <form
-        class="col-6 mx-auto card p-3 shadow-lg"
-        method="post"
-        enctype="multipart/form-data"
-      >
+{% extends "base.html" %}
+{% block title %}Register | NiroxCode{% endblock %}
+{% block body_class %}bg-gray-100{% endblock %}
+{% block body %}
+<main class="flex min-h-screen items-center justify-center p-4">
+    <form class="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg sm:p-8" method="post">
         {% csrf_token %}
-        <!-- CSRF token for security -->
-
-        <!-- Registration form heading -->
-        <h1 style="text-align: center">
-          <span style="color: green">NiroxCode</span>
-        </h1 >
-        <h3 style="text-align: center">Register</h3>
-        <hr />
-
-        <!-- Display error/success messages -->
+        <h1 class="text-center text-3xl font-semibold text-green-600">NiroxCode</h1>
+        <h2 class="mt-2 text-center text-xl font-medium">Register</h2>
+        <hr class="my-4">
         {% if messages %}
-        <div class="alert alert-primary" role="alert">
-          {% for message in messages %} {{ message }} {% endfor %}
-        </div>
+            <div class="mb-4 rounded-lg bg-blue-100 p-4 text-sm text-blue-700" role="alert">
+                {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+            </div>
         {% endif %}
-
-        <!-- Username input field -->
-        <div class="form-group">
-          <label for="exampleInputUsername">Username</label>
-          <input
-              type="text"
-              class="form-control"
-              name="username"
-              id="exampleInputUsername"
-              aria-describedby="usernameHelp"
-              placeholder="Enter username"
-              required
-          />
-      </div>
-
-        <!-- Email input field -->
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input
-              type="email"
-              class="form-control"
-              name="email"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              required
-          />
-      </div>
-
-        <!-- Password input field -->
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input
-              type="password"
-              class="form-control"
-              name="password"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              required
-          />
-      </div>
-         <!-- Confirm Password input field -->
-         <div class="form-group">
-          <label for="exampleInputPassword2">Confirm Password</label>
-          <input
-              type="password"
-              class="form-control"
-              name="confirm_password"
-              id="exampleInputPassword2"
-              placeholder="Confirm Password"
-              required
-          />
-      </div>
-        <!-- Age input field -->
-        <div class="form-group">
-          <label for="exampleInputAge">Age</label>
-          <input
-              type="number"
-              class="form-control"
-              name="age"
-              id="exampleInputAge"
-              placeholder="Enter age"
-              required
-          />
-      </div>
-  
-
-        <!-- Link to login page for users who already have an account -->
-        <p>Already have an account <a href="/accounts/login/">Login</a></p>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  </body>
-</html>
+        <div class="space-y-4">
+            <div><label for="username" class="block font-medium">Username</label><input type="text" class="form-control mt-1" name="username" id="username" placeholder="Enter username" required autocomplete="username"></div>
+            <div><label for="email" class="block font-medium">Email address</label><input type="email" class="form-control mt-1" name="email" id="email" placeholder="Enter email" required autocomplete="email"></div>
+            <div><label for="password" class="block font-medium">Password</label><input type="password" class="form-control mt-1" name="password" id="password" placeholder="Password" required autocomplete="new-password"></div>
+            <div><label for="confirm_password" class="block font-medium">Confirm Password</label><input type="password" class="form-control mt-1" name="confirm_password" id="confirm_password" placeholder="Confirm password" required autocomplete="new-password"></div>
+            <div><label for="age" class="block font-medium">Age</label><input type="number" class="form-control mt-1" name="age" id="age" placeholder="Enter age" required min="1"></div>
+        </div>
+        <p class="mt-5">Already have an account? <a href="{% url 'loginn' %}" class="text-blue-600 hover:text-blue-800">Login</a></p>
+        <button type="submit" class="mt-4 w-full rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600">Submit</button>
+    </form>
+</main>
+{% endblock %}
