@@ -20,17 +20,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!wi4zh2a&@$22d1t3i^p4b)+#o-k%hvkknuau+_lw$-_b0#x*q'
-
+# SECRET_KEY = 'django-insecure-!wi4zh2a&@$22d1t3i^p4b)+#o-k%hvkknuau+_lw$-_b0#x*q'
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-insecure-key")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['35.154.245.26','niroxcode.me' ,'www.niroxcode.me', '127.0.0.1','localhost']
-CSRF_TRUSTED_ORIGINS = [
-    'https://niroxcode.me',
-    'https://www.niroxcode.me',
+#ALLOWED_HOSTS = ['35.154.245.26','niroxcode.me' ,'www.niroxcode.me', '127.0.0.1','localhost','178.92.120.47']
+#CSRF_TRUSTED_ORIGINS = [
+#    'https://niroxcode.me',
+#    'https://www.niroxcode.me',
     # Add other trusted origins if needed
-]
+#]
+ALLOWED_HOSTS = [h for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h]
+CSRF_TRUSTED_ORIGINS = [o for o in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if o]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,7 +86,8 @@ WSGI_APPLICATION = 'Main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.environ.get('DB_PATH', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -122,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
