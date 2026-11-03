@@ -1,199 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Problem Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-           
-        }
-        .container {
-            display: flex;
-            height: 100%;
-            position: relative;
-            
-        }
-        .panel {
-            flex: 1;
-            transition: flex 0.3s ease;
-             /* Enable vertical scrolling */
-            
-            
-            
-        }
-        .black {
-            
-            background-color: black;
-            overflow-y: auto;
-            color: white;
-            text-align: center;
-        }
-        .white {
-            
-            background-color: white;
-            color: black;
-            text-align: center;
-            
-            
-            
-        }
-        .slider {
-            position: absolute;
-            top: 65px;
-            bottom: 0;
-            width: 10px;
-            height: 100%;
-            cursor: ew-resize;
-            background-color: gray;
-            z-index: 1;
-            opacity: 0.8;
-            transition: background-color 0.3s ease;
-        }
-        .problem-title {
-            font-family:'Courier New', Courier, monospace; 
-            font-size: 1.5rem; 
-            padding: 20px; 
-            color: lightgreen; 
-            text-align: center; 
-            
-        }
-        .slider:hover {
-            background-color: darkgray;
-        }
-        .details-box {
-            background-color: #f0f0f078; /* Greyish background */
-            color: black;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: left;
-            font-size: large;
-        }
-        .details-box img {
-            max-width: 100%; /* Ensure image fits within the container */
-            height: auto; /* Maintain aspect ratio */
-            max-height: 100%; /* Ensure image does not exceed container height */
-        }
-    </style>
-</head>
-<body>
-    
-    <div class="container">
-        <nav class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-4 shadow-md w-full flex justify-between items-center fixed top-0 left-0 right-0">
-            <div class="container mx-auto flex justify-between items-center">
-                <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
-                <div class="flex space-x-4">
-                    <a href="/home/all_problems/" class="text-white hover:text-gray-200 transition duration-200">Home</a>
-                    <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
-                    <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
+{% extends "base.html" %}
+{% block title %}{{ problem.name }} | NiroxCode{% endblock %}
+{% block body_class %}bg-white problem-page{% endblock %}
+{% block body %}
+    <div class="problem-layout">
+        <nav class="site-nav problem-nav fixed left-0 right-0 top-0 shadow-md">
+            <div class="site-nav__inner flex items-center justify-between">
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-white">NiroxCode</a>
+                <div class="problem-nav__controls">
+                    <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+                        <span aria-hidden="true">☾</span> <span data-theme-label>Dark mode</span>
+                    </button>
+                    <button type="button" class="site-nav__toggle rounded px-2 py-1 text-white hover:bg-white hover:bg-opacity-20" data-nav-toggle aria-expanded="false" aria-controls="problem-nav-links">
+                        <span class="sr-only">Toggle navigation</span><span aria-hidden="true">☰</span>
+                    </button>
+                </div>
+                <div id="problem-nav-links" class="site-nav__links" data-nav-links>
+                    <a href="{% url 'home' %}" class="site-nav__link">Problems</a>
+                    <a href="{% url 'submissions' %}" class="site-nav__link">Submissions</a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">Logout</button>
+                    </form>
                 </div>
             </div>
-            {% if user.is_authenticated %}
-            <form method="post" action="{% url 'logout' %}" class="ml-4">
-                {% csrf_token %}
-                <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
-            </form>
-            {% endif %}
         </nav>
-        <div class="panel black" id="black-panel">
-            <br><br>
-            <h1 class="problem-title">{{ problem.name }}</h1>
+        <section class="problem-panel problem-panel--details" data-problem-details>
+            <div class="workspace-header">
+                <p class="workspace-label">Problem</p>
+                <h1 class="problem-title mt-1">{{ problem.name }}</h1>
+            </div>
             <div class="details-box">
+                <div class="mb-4 flex flex-wrap gap-2 text-xs font-semibold">
+                    <span class="rounded-full bg-blue-50 px-3 py-1 text-blue-700">Description</span>
+                    {% if problem.difficulty %}<span class="rounded-full bg-gray-100 px-3 py-1 text-gray-600">{{ problem.difficulty }}</span>{% endif %}
+                </div>
                 {{ problem.description|linebreaksbr }}
                 {% if problem.has_image %}
-                    <img src="{{ problem.image.url }}" alt="Problem Image">
+                    <img src="{{ problem.image.url }}" alt="Illustration for {{ problem.name }}">
                 {% endif %}
             </div>
-        </div>
-        <div class="slider" id="slider"></div>
-        <div class="panel white" id="white-panel">
-            <br><br><br>
-            <form method="post" class="mt-4 space-y-2">
+        </section>
+        <div class="split-slider" data-split-slider role="separator" aria-label="Resize problem and editor panels" tabindex="0"></div>
+        <section class="problem-panel problem-panel--editor" data-problem-editor>
+            <div class="workspace-header flex items-center justify-between gap-4">
+                <div><p class="workspace-label">Workspace</p><h2 class="text-xl font-bold text-gray-900">Code solution</h2></div>
+                <span class="hidden text-sm text-gray-500 sm:inline">Run your code before submitting</span>
+            </div>
+            <form method="post" class="code-form">
                 {% csrf_token %}
-                <div>
-                    <h5 class="mb-1">Select language</h5>
-                    {{ form.language }}
-                </div>
-                <div>
-                    <h5 class="mb-1">Code</h5>
+                <div class="editor-card">
+                    <div class="editor-toolbar">
+                        <label for="{{ form.language.id_for_label }}" class="font-semibold text-gray-700">Language</label>
+                        {{ form.language }}
+                    </div>
                     {{ form.code }}
                 </div>
-                <div>
-                    <h5 class="mb-1">Input data</h5>
-                    {{ form.input_data }}
+                <div class="workspace-output">
+                    <div>
+                        <label for="{{ form.input_data.id_for_label }}">Test input</label>
+                        {{ form.input_data }}
+                    </div>
+                    <div>
+                        <label for="{{ form.output_data.id_for_label }}">Output</label>
+                        {{ form.output_data }}
+                    </div>
                 </div>
-                <div>
-                    <h5 class="mb-1">Output data</h5>
-                    {{ form.output_data }}
-                </div>
-                <div>
-                    <h5 class="mb-1">Verdict</h5>
+                <div class="mt-4">
+                    <label for="{{ form.verdict.id_for_label }}" class="mb-1 block text-sm font-semibold text-gray-700">Verdict</label>
                     {{ form.verdict }}
                 </div>
-                <div class="flex space-x-2 mt-4  ">
-                    <button type="submit" name="action" value="run_code" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-80  rounded transition duration-200">
-                        Run Code
-                    </button>
-                    <button type="submit" name="action" value="submit_code" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
-                        Submit
-                    </button>
+                <div class="workspace-actions">
+                    <button type="submit" name="action" value="run_code" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-50">Run code</button>
+                    <button type="submit" name="action" value="submit_code" class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white hover:bg-blue-700">Submit solution</button>
                 </div>
             </form>
-        </div>
+        </section>
     </div>
-    
-    <script>
-        const slider = document.getElementById('slider');
-        const blackPanel = document.getElementById('black-panel');
-        const whitePanel = document.getElementById('white-panel');
-        let isDragging = false;
-
-        function initializeSlider() {
-            const containerWidth = document.querySelector('.container').offsetWidth;
-            const initialWidth = 50; // Starting position of the slider
-            blackPanel.style.flex = `0 0 ${initialWidth}%`;
-            whitePanel.style.flex = `0 0 ${100 - initialWidth}%`;
-            slider.style.left = `${initialWidth}%`;
-        }
-
-        window.addEventListener('load', initializeSlider);
-
-        slider.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            e.preventDefault(); // Prevent default text selection
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                const containerRect = document.querySelector('.container').getBoundingClientRect();
-                const sliderWidth = slider.offsetWidth;
-                const offsetX = e.clientX - containerRect.left;
-                const newWidth = ((offsetX - sliderWidth / 2) / (containerRect.width - sliderWidth)) * 100;
-
-                if (newWidth < 10) {
-                    blackPanel.style.flex = `0 0 10%`;
-                    whitePanel.style.flex = `0 0 90%`;
-                } else if (newWidth > 90) {
-                    blackPanel.style.flex = `0 0 90%`;
-                    whitePanel.style.flex = `0 0 10%`;
-                } else {
-                    blackPanel.style.flex = `0 0 ${newWidth}%`;
-                    whitePanel.style.flex = `0 0 ${100 - newWidth}%`;
-                }
-                
-                slider.style.left = `${newWidth}%`;
-            }
-        });
-    </script>
-</body>
-</html>
+{% endblock %}

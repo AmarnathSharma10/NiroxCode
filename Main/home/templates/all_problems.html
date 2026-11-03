@@ -1,47 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>All Problems</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <link rel="icon" href="favicon.png" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        .problemtag {
-            padding: 3px;
-            color: white;
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-
-    <nav class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-4 shadow-md w-full flex justify-between items-center fixed top-0 left-0 right-0">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-white text-2xl font-bold">NiroxCode</a>
-            <div class="flex space-x-4">
-                <a href="/home/all_problems/" class="text-white hover:text-gray-200 transition duration-200">Home</a>
-                <a href="#" class="text-white hover:text-gray-200 transition duration-200">Contests</a>
-                <a href="/home/submissions/" class="text-white hover:text-gray-200 transition duration-200">Submissions</a>
+{% extends "base.html" %}
+{% block title %}All Problems | NiroxCode{% endblock %}
+{% block body_class %}bg-gray-100 page-with-nav{% endblock %}
+{% block body %}
+    {% include "navigation.html" %}
+    <main class="mx-auto flex w-full max-w-5xl flex-col px-4 pb-8">
+        <header class="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <div>
+                <p class="workspace-label">Practice</p>
+                <h1 class="text-3xl font-bold text-gray-900">Problem set</h1>
+                <p class="mt-1 text-sm text-gray-500">Choose a problem and sharpen your skills.</p>
             </div>
-        </div>
-        {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}" class="ml-4">
-            {% csrf_token %}
-            <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
-        </form>
-        {% endif %}
-    </nav>
+            <span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">Page {{ page_obj.number }}</span>
+        </header>
 
-    <main class="pt-24 flex flex-col items-center justify-center w-full">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">All Problems</h1>
-
-        <ul class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 ml-4">
+        <ul class="w-full rounded-lg bg-white p-4 shadow-md">
             {% for problem in page_obj %}
                 <li class="border-b last:border-b-0 text-left">
-                    <a href="/home/all_problems/{{ problem.id }}/" class="block py-3 text-blue-600 hover:text-blue-800 transition duration-200 flex justify-between">
-                        <span>{{ problem }}</span>
-                        <span class="problemtag {% if problem.difficulty == 'Easy' %}bg-green-500{% elif problem.difficulty == 'Medium' %}bg-yellow-500{% else %}bg-red-500{% endif %}">
+                    <a href="{% url 'detail' problem.id %}" class="flex justify-between gap-4 py-3 text-blue-600 transition duration-200 hover:text-blue-800">
+                        <span class="font-medium text-gray-800">{{ problem }}</span>
+                        <span class="rounded px-2 py-1 text-sm font-medium text-white {% if problem.difficulty == 'Easy' %}bg-green-500{% elif problem.difficulty == 'Medium' %}bg-yellow-500{% else %}bg-red-500{% endif %}">
                             {{ problem.difficulty }}
                         </span>
                     </a>
@@ -87,6 +64,4 @@
             </nav>
         </div>
     </main>
-
-</body>
-</html>
+{% endblock %}
