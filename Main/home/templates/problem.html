@@ -1,9 +1,27 @@
 {% extends "base.html" %}
 {% block title %}{{ problem.name }} | NiroxCode{% endblock %}
-{% block body_class %}bg-white{% endblock %}
+{% block body_class %}bg-white problem-page{% endblock %}
 {% block body %}
     <div class="problem-layout">
-        {% include "navigation.html" %}
+        <nav class="site-nav fixed left-0 right-0 top-0 shadow-md">
+            <div class="site-nav__inner flex items-center justify-between">
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-white">NiroxCode</a>
+                <button type="button" class="site-nav__toggle rounded px-2 py-1 text-white hover:bg-white hover:bg-opacity-20" data-nav-toggle aria-expanded="false" aria-controls="problem-nav-links">
+                    <span class="sr-only">Toggle navigation</span><span aria-hidden="true">☰</span>
+                </button>
+                <div id="problem-nav-links" class="site-nav__links" data-nav-links>
+                    <a href="{% url 'home' %}" class="site-nav__link">Problems</a>
+                    <a href="{% url 'submissions' %}" class="site-nav__link">Submissions</a>
+                    <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+                        <span aria-hidden="true">☾</span> Dark mode
+                    </button>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
         <section class="problem-panel problem-panel--details" data-problem-details>
             <div class="workspace-header">
                 <p class="workspace-label">Problem</p>

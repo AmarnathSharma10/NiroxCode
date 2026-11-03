@@ -64,8 +64,10 @@ body { min-width: 320px; }
 }
 .split-slider:hover, .split-slider:focus { background: #2563eb; }
 
-.workspace-header { border-bottom: 1px solid #e5e7eb; margin: -5rem -1.5rem 1.5rem; padding: 1rem 1.5rem; }
+.workspace-header { border-bottom: 1px solid #e5e7eb; margin: 0 -1.5rem 1.5rem; padding: 1rem 1.5rem; }
 .workspace-label { color: #6b7280; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.theme-toggle { align-items: center; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: .5rem; color: white; display: inline-flex; gap: .4rem; padding: .5rem .7rem; }
+.theme-toggle:hover, .theme-toggle:focus { background: rgba(255,255,255,.22); }
 .editor-card { border: 1px solid #e5e7eb; border-radius: .75rem; overflow: hidden; }
 .editor-toolbar { align-items: center; background: #f9fafb; border-bottom: 1px solid #e5e7eb; display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; padding: .75rem 1rem; }
 .editor-toolbar select { width: auto; min-width: 8rem; }
@@ -90,6 +92,24 @@ body { min-width: 320px; }
 .landing-feature h2 { color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
 .landing-feature p { color: #cbd5e1; line-height: 1.6; }
 
+.problem-page.is-dark { background: #111827; color: #e5e7eb; }
+.problem-page.is-dark .problem-panel--details { background: #111827; color: #e5e7eb; }
+.problem-page.is-dark .problem-panel--editor { background: #1f2937; border-left-color: #374151; }
+.problem-page.is-dark .workspace-header { border-bottom-color: #374151; }
+.problem-page.is-dark .workspace-label,
+.problem-page.is-dark .workspace-header h2,
+.problem-page.is-dark .problem-title,
+.problem-page.is-dark .workspace-output label { color: #f9fafb; }
+.problem-page.is-dark .details-box { background: #1f2937; border-color: #374151; color: #e5e7eb; }
+.problem-page.is-dark .details-box .bg-blue-50 { background: #1e3a8a; color: #bfdbfe; }
+.problem-page.is-dark .details-box .bg-gray-100 { background: #374151; color: #d1d5db; }
+.problem-page.is-dark .editor-card { border-color: #374151; }
+.problem-page.is-dark .editor-toolbar { background: #111827; border-bottom-color: #374151; }
+.problem-page.is-dark .editor-toolbar label { color: #e5e7eb; }
+.problem-page.is-dark .workspace-output textarea[readonly],
+.problem-page.is-dark .workspace-output textarea { background: #111827 !important; border-color: #374151; color: #e5e7eb !important; }
+.problem-page.is-dark .workspace-actions .border-gray-300 { background: #374151; border-color: #4b5563; color: #f9fafb; }
+
 @media (max-width: 768px) {
     .site-nav__inner { align-items: flex-start; flex-wrap: wrap; }
     .site-nav__toggle { display: block; }
@@ -100,7 +120,7 @@ body { min-width: 320px; }
     .problem-panel { min-height: auto; padding: 5rem 1rem 1rem; }
     .problem-panel--details, .problem-panel--editor { width: 100%; }
     .split-slider { display: none; }
-    .workspace-header { margin: -5rem -1rem 1rem; padding: 1rem; }
+    .workspace-header { margin: 0 -1rem 1rem; padding: 1rem; }
     .workspace-output, .landing-features { grid-template-columns: 1fr; }
     .landing-hero { grid-template-columns: 1fr; min-height: auto; padding: 4rem 0 2rem; }
 }

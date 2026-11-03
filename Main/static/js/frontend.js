@@ -8,6 +8,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const themeToggle = document.querySelector("[data-theme-toggle]");
+    if (themeToggle) {
+        const page = document.body;
+        const savedTheme = window.localStorage.getItem("niroxcode-problem-theme");
+        const setTheme = (dark) => {
+            page.classList.toggle("is-dark", dark);
+            themeToggle.setAttribute("aria-pressed", String(dark));
+            themeToggle.innerHTML = dark
+                ? '<span aria-hidden="true">☀</span> Light mode'
+                : '<span aria-hidden="true">☾</span> Dark mode';
+        };
+        setTheme(savedTheme === "dark");
+        themeToggle.addEventListener("click", () => {
+            const dark = !page.classList.contains("is-dark");
+            setTheme(dark);
+            window.localStorage.setItem("niroxcode-problem-theme", dark ? "dark" : "light");
+        });
+    }
+
     const slider = document.querySelector("[data-split-slider]");
     const details = document.querySelector("[data-problem-details]");
     const editor = document.querySelector("[data-problem-editor]");
