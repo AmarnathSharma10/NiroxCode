@@ -1,27 +1,19 @@
 {% extends "base.html" %}
 {% block title %}{{ problem.name }} | NiroxCode{% endblock %}
-{% block body_class %}bg-gray-100{% endblock %}
+{% block body_class %}bg-white{% endblock %}
 {% block body %}
     <div class="problem-layout">
-        <nav class="site-nav fixed left-0 right-0 top-0 shadow-md">
-            <div class="site-nav__inner flex items-center justify-between">
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-white">NiroxCode</a>
-                <button type="button" class="site-nav__toggle rounded px-2 py-1 text-white hover:bg-white hover:bg-opacity-20" data-nav-toggle aria-expanded="false" aria-controls="problem-nav-links">
-                    <span class="sr-only">Toggle navigation</span><span aria-hidden="true">☰</span>
-                </button>
-                <div id="problem-nav-links" class="site-nav__links" data-nav-links>
-                    <a href="{% url 'home' %}" class="site-nav__link">Problems</a>
-                    <a href="{% url 'submissions' %}" class="site-nav__link">Submissions</a>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        {% include "navigation.html" %}
         <section class="problem-panel problem-panel--details" data-problem-details>
-            <h1 class="problem-title mb-5">{{ problem.name }}</h1>
+            <div class="workspace-header">
+                <p class="workspace-label">Problem</p>
+                <h1 class="problem-title mt-1">{{ problem.name }}</h1>
+            </div>
             <div class="details-box">
+                <div class="mb-4 flex flex-wrap gap-2 text-xs font-semibold">
+                    <span class="rounded-full bg-blue-50 px-3 py-1 text-blue-700">Description</span>
+                    {% if problem.difficulty %}<span class="rounded-full bg-gray-100 px-3 py-1 text-gray-600">{{ problem.difficulty }}</span>{% endif %}
+                </div>
                 {{ problem.description|linebreaksbr }}
                 {% if problem.has_image %}
                     <img src="{{ problem.image.url }}" alt="Illustration for {{ problem.name }}">
@@ -30,16 +22,36 @@
         </section>
         <div class="split-slider" data-split-slider role="separator" aria-label="Resize problem and editor panels" tabindex="0"></div>
         <section class="problem-panel problem-panel--editor" data-problem-editor>
-            <form method="post" class="code-form mx-auto max-w-2xl space-y-4">
+            <div class="workspace-header flex items-center justify-between gap-4">
+                <div><p class="workspace-label">Workspace</p><h2 class="text-xl font-bold text-gray-900">Code solution</h2></div>
+                <span class="hidden text-sm text-gray-500 sm:inline">Run your code before submitting</span>
+            </div>
+            <form method="post" class="code-form">
                 {% csrf_token %}
-                <div><label for="{{ form.language.id_for_label }}" class="mb-1 block font-medium">Select language</label>{{ form.language }}</div>
-                <div><label for="{{ form.code.id_for_label }}" class="mb-1 block font-medium">Code</label>{{ form.code }}</div>
-                <div><label for="{{ form.input_data.id_for_label }}" class="mb-1 block font-medium">Input data</label>{{ form.input_data }}</div>
-                <div><label for="{{ form.output_data.id_for_label }}" class="mb-1 block font-medium">Output data</label>{{ form.output_data }}</div>
-                <div><label for="{{ form.verdict.id_for_label }}" class="mb-1 block font-medium">Verdict</label>{{ form.verdict }}</div>
-                <div class="code-form__actions">
-                    <button type="submit" name="action" value="run_code" class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">Run Code</button>
-                    <button type="submit" name="action" value="submit_code" class="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700">Submit</button>
+                <div class="editor-card">
+                    <div class="editor-toolbar">
+                        <label for="{{ form.language.id_for_label }}" class="font-semibold text-gray-700">Language</label>
+                        {{ form.language }}
+                    </div>
+                    {{ form.code }}
+                </div>
+                <div class="workspace-output">
+                    <div>
+                        <label for="{{ form.input_data.id_for_label }}">Test input</label>
+                        {{ form.input_data }}
+                    </div>
+                    <div>
+                        <label for="{{ form.output_data.id_for_label }}">Output</label>
+                        {{ form.output_data }}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="{{ form.verdict.id_for_label }}" class="mb-1 block text-sm font-semibold text-gray-700">Verdict</label>
+                    {{ form.verdict }}
+                </div>
+                <div class="workspace-actions">
+                    <button type="submit" name="action" value="run_code" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-50">Run code</button>
+                    <button type="submit" name="action" value="submit_code" class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white hover:bg-blue-700">Submit solution</button>
                 </div>
             </form>
         </section>

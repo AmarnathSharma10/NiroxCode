@@ -3,41 +3,49 @@
 {% block title %}NiroxCode{% endblock %}
 {% block head %}
 <style>
-    .landing-page { background: linear-gradient(rgba(8, 15, 35, .55), rgba(8, 15, 35, .7)), url("{% static 'images/Space.jpg' %}") center / cover fixed; }
-    .landing-card { background: rgba(15, 23, 42, .72); backdrop-filter: blur(3px); }
+    .landing-page { background: linear-gradient(110deg, rgba(8, 15, 35, .9), rgba(15, 23, 42, .65)), url("{% static 'images/Space.jpg' %}") center / cover fixed; }
 </style>
 {% endblock %}
 {% block body %}
-<main class="landing-page min-h-screen px-4 py-6 text-aquamarine sm:px-8">
-    <header class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-        <h1 class="text-4xl font-bold text-white">NiroxCode</h1>
-        <div class="flex gap-3">
-            <a href="{% url 'loginn' %}" class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">Login</a>
-            <a href="{% url 'register' %}" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700">Signup</a>
-        </div>
-    </header>
-    <div class="mx-auto grid max-w-6xl gap-5 py-12 md:grid-cols-2">
-        <section class="landing-card rounded-lg p-5 text-aquamarine">
-            <h2 class="mb-3 text-2xl">Why NiroxCode?</h2>
-            <ul class="list-inside list-disc space-y-2">
-                <li>Supports Java, Python, C and C++</li>
-                <li>Easy administration</li>
-                <li>Responsive interface</li>
-                <li>Clear results when test cases fail</li>
-            </ul>
+<main class="landing-page min-h-screen px-5 text-white sm:px-8">
+    <div class="landing-shell">
+        <header class="flex flex-wrap items-center justify-between gap-4 py-6">
+            <a href="{% url 'AlgoAlpha' %}" class="text-2xl font-bold tracking-tight">Nirox<span class="text-cyan-300">Code</span></a>
+            <nav class="flex items-center gap-3">
+                <a href="{% url 'loginn' %}" class="rounded-lg border border-white border-opacity-30 px-4 py-2 text-sm font-semibold hover:bg-white hover:bg-opacity-10">Log in</a>
+                <a href="{% url 'register' %}" class="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-cyan-300">Get started</a>
+            </nav>
+        </header>
+        <section class="landing-hero">
+            <div>
+                <p class="landing-kicker">Practice. Improve. Compete.</p>
+                <h1 class="mt-4 font-bold tracking-tight">Build better code, one problem at a time.</h1>
+                <p class="mt-6">A focused online judge for writing, running and submitting solutions in Python, Java, C and C++.</p>
+                <div class="mt-8 flex flex-wrap gap-3">
+                    <a href="{% url 'register' %}" class="rounded-lg bg-blue-500 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 hover:bg-blue-400">Start practicing</a>
+                    <a href="{% url 'loginn' %}" class="rounded-lg border border-white border-opacity-30 px-5 py-3 font-semibold hover:bg-white hover:bg-opacity-10">I already have an account</a>
+                </div>
+            </div>
+            <div class="landing-panel">
+                <p class="landing-kicker">Your workspace</p>
+                <h2 class="mt-3 text-2xl font-bold">From idea to accepted.</h2>
+                <p class="mt-3 text-sm leading-6 text-slate-300">Read a clear problem statement, write your solution, test it with custom input and submit when it is ready.</p>
+                <div class="mt-6 space-y-4 text-sm">
+                    <div class="landing-stat"><span class="text-slate-400">Languages</span><strong>4 supported</strong></div>
+                    <div class="landing-stat"><span class="text-slate-400">Workflow</span><strong>Run → Submit</strong></div>
+                    <div class="landing-stat"><span class="text-slate-400">Feedback</span><strong>Clear verdicts</strong></div>
+                </div>
+            </div>
         </section>
-        <section class="landing-card rounded-lg p-5 text-aquamarine">
-            <h2 class="mb-3 text-2xl">What is NiroxCode?</h2>
-            <p>NiroxCode is a web-based online coding platform for writing, compiling, running and submitting code.</p>
+        <section class="landing-features">
+            <article class="landing-feature"><h2>Focused practice</h2><p>Browse a simple problem set and spend less time navigating, more time solving.</p></article>
+            <article class="landing-feature"><h2>Fast feedback</h2><p>Run code with your own input before sending a final submission.</p></article>
+            <article class="landing-feature"><h2>Built to learn</h2><p>Use readable statements and verdicts to understand what to improve next.</p></article>
         </section>
+        <footer class="flex flex-wrap justify-between gap-3 border-t border-white border-opacity-10 py-6 text-sm text-slate-400">
+            <span>Designed for developers who keep learning.</span>
+            <div class="flex gap-4"><a href="mailto:nath.c54321@gmail.com" class="hover:text-white">Email</a><a href="https://github.com/AmarnathSharma10" target="_blank" rel="noopener noreferrer" class="hover:text-white">GitHub</a></div>
+        </footer>
     </div>
-    <footer class="landing-card mx-auto max-w-6xl rounded-lg p-5 text-aquamarine">
-        <h2 class="text-xl">Got feedback or suggestions?</h2>
-        <div class="mt-3 flex gap-4 text-white">
-            <a href="https://www.linkedin.com/in/amarnath-sharma-c-05a375320/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:nath.c54321@gmail.com">Email</a>
-            <a href="https://github.com/AmarnathSharma10" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-    </footer>
 </main>
 {% endblock %}
