@@ -152,7 +152,7 @@ Credentials (Docker Hub token, SSH key, server address) are stored as GitHub Act
 
 **Server setup:** Ubuntu VPS with Docker Compose running two services, `web` (Django and gunicorn) and `caddy`. The SQLite database lives on a named Docker volume, so it survives redeploys. The server uses a non-root user, key-only SSH and a default-deny firewall.
 
-A detailed write-up of the deployment, including the problems I ran into and how I solved them, is in [DEPLOYMENT.md](DEPLOYMENT.md).
+
 
 ## Roadmap
 
