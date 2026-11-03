@@ -25,6 +25,7 @@ body { min-width: 320px; }
 .site-nav__link { color: white; padding: .5rem .25rem; }
 .site-nav__link:hover, .site-nav__link:focus { color: #e5e7eb; }
 .site-nav__toggle { display: none; }
+.problem-nav__controls { align-items: center; display: flex; gap: .5rem; }
 
 .page-with-nav { padding-top: 4.5rem; }
 .form-control,
@@ -49,7 +50,7 @@ body { min-width: 320px; }
     overflow: hidden;
     position: relative;
 }
-.problem-panel { min-width: 0; overflow-y: auto; padding: 5rem 1.5rem 1.5rem; }
+.problem-panel { min-width: 0; overflow-y: auto; padding: 6.5rem 1.5rem 1.5rem; }
 .problem-panel--details { flex: 0 0 48%; background: #f7f8fa; color: #1f2937; }
 .problem-panel--editor { flex: 0 0 52%; background: #fff; border-left: 1px solid #e5e7eb; }
 .problem-title { color: #111827; font-size: 1.75rem; font-weight: 700; }
@@ -117,7 +118,7 @@ body { min-width: 320px; }
     .site-nav__links.is-open { display: flex; }
     .site-nav__link { display: block; }
     .problem-layout { display: block; height: auto; overflow: visible; }
-    .problem-panel { min-height: auto; padding: 5rem 1rem 1rem; }
+    .problem-panel { min-height: auto; padding: 6.5rem 1rem 1rem; }
     .problem-panel--details, .problem-panel--editor { width: 100%; }
     .split-slider { display: none; }
     .workspace-header { margin: 0 -1rem 1rem; padding: 1rem; }

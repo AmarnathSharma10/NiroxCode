@@ -15,9 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const setTheme = (dark) => {
             page.classList.toggle("is-dark", dark);
             themeToggle.setAttribute("aria-pressed", String(dark));
-            themeToggle.innerHTML = dark
-                ? '<span aria-hidden="true">☀</span> Light mode'
-                : '<span aria-hidden="true">☾</span> Dark mode';
+            const icon = themeToggle.querySelector("[aria-hidden='true']");
+            const label = themeToggle.querySelector("[data-theme-label]");
+            if (icon) icon.textContent = dark ? "☀" : "☾";
+            if (label) label.textContent = dark ? "Light mode" : "Dark mode";
         };
         setTheme(savedTheme === "dark");
         themeToggle.addEventListener("click", () => {
